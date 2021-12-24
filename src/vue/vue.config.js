@@ -1,3 +1,10 @@
 module.exports = {
-  publicPath: '/vue'
-}
+    publicPath: '/vue/',
+    devServer: {
+      proxy: {
+        "/": {
+          target: "http://localhost:8080",
+        }
+      }
+    }
+  }

@@ -88,7 +88,7 @@
           style="color: inherit; text-decoration: none"
         >
           <v-icon large class="mt-n1"> mdi-fish </v-icon>
-          <b>釣りログ</b>
+          <b>ツリビュー</b>
         </router-link>
       </v-toolbar-title>
 

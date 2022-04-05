@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 import axios from 'axios';
 
 Vue.use(Vuex);
+Vue.config.devtools = true;
 
 export default new Vuex.Store({
   state: {
@@ -15,7 +16,7 @@ export default new Vuex.Store({
     },
   },
   mutations: {
-    updateId(state, id){
+    updateId(state, id) {
       state.id = id;
     },
     resetData(state) {
@@ -23,8 +24,8 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    login({ commit }, authData) {
-      axios
+    async login({ commit }, authData) {
+      await axios
         .post(
           '/login',
           {
@@ -33,7 +34,7 @@ export default new Vuex.Store({
           }
         )
         .then(() => {
-            commit('updateId', authData.id);
+          commit('updateId', authData.id);
         });
     },
     logout({ commit }) {

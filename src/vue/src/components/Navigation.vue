@@ -1,0 +1,123 @@
+<template>
+  <div class="navigation">
+    <v-navigation-drawer
+      v-model="drawer"
+      app
+      right
+      dark
+      class="dark-green darken-4"
+      disable-resize-watcher
+    >
+      <v-list dense>
+        <v-subheader>管理者</v-subheader>
+        <v-list-item
+          v-if="!this.$store.getters.isAuthenticated"
+          link
+          to="/login"
+        >
+          <v-list-item-action>
+            <v-icon>mdi-login</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>ログイン</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item
+          v-if="this.$store.getters.isAuthenticated"
+          link
+          to="/"
+          @click="$store.dispatch('logout')"
+        >
+          <v-list-item-action>
+            <v-icon>mdi-logout</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>ログアウト</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-divider></v-divider>
+        <template v-if="this.$store.getters.isAuthenticated">
+          <v-subheader>管理メニュー</v-subheader>
+
+          <v-list-item link to="/edit/entry/new">
+            <v-list-item-action>
+              <v-icon>mdi-note-edit</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>釣行登録</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+
+          <v-list-item link to="/edit/method">
+            <v-list-item-action>
+              <v-icon>mdi-toolbox</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>釣り方登録</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+
+          <v-list-item link to="/edit/fish">
+            <v-list-item-action>
+              <v-icon>mdi-fish</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>魚登録</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+
+          <v-list-item link to="/edit/place">
+            <v-list-item-action>
+              <v-icon>mdi-map-marker</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>場所登録</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </template>
+      </v-list>
+    </v-navigation-drawer>
+
+    <v-app-bar app color="primary" dark>
+      <v-toolbar-title>
+        <router-link
+          to="/"
+          class="mr-10"
+          style="color: inherit; text-decoration: none"
+        >
+          <v-icon large class="mt-n1"> mdi-fish </v-icon>
+          <b>釣りログ</b>
+        </router-link>
+      </v-toolbar-title>
+
+      <v-spacer />
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+
+      <template v-slot:extension>
+        <v-tabs>
+          <v-tab to="/">トップ</v-tab>
+          <v-tab to="/entries">釣行</v-tab>
+          <v-tab to="/fish">魚</v-tab>
+          <v-tab to="/place">場所</v-tab>
+        </v-tabs>
+      </template>
+    </v-app-bar>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "Navigation",
+  data: () => ({
+    drawer: false,
+  }),
+};
+</script>
+
+<style scoped>
+.navigation {
+  margin-bottom: 16px;
+}
+</style>

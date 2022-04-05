@@ -1,51 +1,71 @@
 <template>
-    <div>
-      <template v-if="!this.$store.getters.isAuthenticated">
-        <input type="text" v-model="id">
-        <input type="password" v-model="password">
-        <button @click="login">ログイン</button>
-      </template>
-      <template v-if="this.$store.getters.isAuthenticated">
-        <p>{{this.$store.getters.id}}さん</p>
-        <button @click="logout">ログアウト</button>
-      </template>
-      <button @click="requestApi">ログインしないと失敗するリクエスト</button>
-      <p>{{result}}</p>
-    </div>
+	<v-app id="app" :style="{background: $vuetify.theme.themes[theme].background}">
+		<Navigation></Navigation>
+
+		<v-container grid-list-lg class="mt-10">
+			<v-card loading v-if="this.$root.loading">
+				<v-card-text class="loading-body">
+					Loading...
+				</v-card-text>
+			</v-card>
+
+			<router-view></router-view>
+
+			<footer>
+				
+			</footer>
+		</v-container>
+
+	</v-app>
 </template>
 
-
 <script>
-export default {
-  data() {
-    return {
-      id: '',
-      password: '',
-      result: '',
-    };
-  },
-  methods: {
-    login() {
-      this.$store.dispatch('login', {
-        id: this.id,
-        password: this.password
-      });
-      this.id = '';
-      this.password = '';
-    },
-    logout() {
-      this.$store.dispatch('logout');
-    },
-    requestApi() {
-      this.$axios
-        .get('/sample')
-        .then(response => {
-          this.result = response.data;
-        })
-        .catch(error => {
-          this.result = error;
-        })
-    }
-  }
-};
+	import Navigation from "./components/Navigation";
+
+	export default {
+		name: 'LayoutsDemosBaselineFlipped',
+		components: {
+			Navigation
+		},
+		props: {
+			source: String,
+		},
+		data: () => ({
+			drawer: false,
+		}),
+		mounted() {
+		},
+		computed: {
+			theme() {
+				return this.$vuetify.theme.dark ? "dark" : "light";
+			},
+		},
+	}
 </script>
+
+<style scoped>
+	.container {
+		margin-top: 36px;
+		padding: 0px;
+	}
+
+	.main {
+		max-width: 740px;
+	}
+
+	footer {
+		margin: 12px 0;
+		font-size: 14px;
+		text-align: center;
+		font-weight: lighter;
+	}
+
+	.v-alert {
+		padding: 24px 0;
+		margin: 24px 0 32px 0;
+	}
+
+	.loading-body {
+		margin: 20px;
+	}
+</style>

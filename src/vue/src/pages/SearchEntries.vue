@@ -6,7 +6,7 @@
         絞込条件
       </v-row>
       <v-row align="center" justify="center">
-        <div class="mx-auto">
+        <div class="mx-auto" style="width: 170px">
           <v-text-field
             v-model="condition.fromDate"
             type="date"
@@ -14,7 +14,7 @@
           />
         </div>
         <p>～</p>
-        <div class="mx-auto">
+        <div class="mx-auto" style="width: 170px">
           <v-text-field v-model="condition.toDate" type="date" label="日付to" />
         </div>
         <div class="mx-auto" style="width: 50px">
@@ -32,7 +32,7 @@
           >
           </v-select>
         </div>
-        <div class="mx-auto" style="width: 200px">
+        <div class="mx-auto" style="width: 150px">
           <v-select
             v-model="condition.place"
             :items="placeList"
@@ -42,7 +42,7 @@
             no-data-text="都道府県を選択してください"
           ></v-select>
         </div>
-        <div class="mx-auto" style="width: 200px">
+        <div class="mx-auto" style="width: 150px">
           <v-select
             v-model="condition.fish"
             :items="fishList"
@@ -51,7 +51,7 @@
             label="魚"
           ></v-select>
         </div>
-        <div class="mx-auto" style="width: 200px">
+        <div class="mx-auto" style="width: 150px">
           <v-select
             v-model="condition.method"
             :items="methodList"
@@ -107,7 +107,7 @@ export default {
         alert(err);
       });
 
-      this.$refs.entries.loadEntries();
+    this.$refs.entries.loadEntries();
   },
   watch: {},
   computed: {},
@@ -121,7 +121,8 @@ export default {
     },
     setPlaceList() {
       this.placeList = this.placeListMap[this.condition.prefecture];
-      if (this.condition.prefecture !== "") this.placeList.unshift({ id: "", name: "" });
+      if (this.condition.prefecture !== "")
+        this.placeList.unshift({ id: "", name: "" });
     },
   },
 };

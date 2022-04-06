@@ -50,7 +50,7 @@ CREATE TABLE entry (
   month INTEGER NOT NULL,
   start_time VARCHAR(5) NOT NULL,
   end_time VARCHAR(5) NOT NULL,
-  prefecture INTEGER NOT NULL,
+  prefecture VARCHAR(2) NOT NULL,
   place INTEGER NOT NULL,
   memo VARCHAR(1000),
   created_datetime TIMESTAMP NOT NULL,

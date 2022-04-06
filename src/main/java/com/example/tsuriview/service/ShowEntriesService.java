@@ -2,6 +2,7 @@ package com.example.tsuriview.service;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -95,7 +96,7 @@ public class ShowEntriesService {
 						Sort.by("date").descending().and(Sort.by("startTime").descending())));
 		// @formatter:on
 
-		SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+		SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT, Locale.JAPAN);
 
 		response.setEntryList(entryList.stream().map(entry -> {
 			ShowEntriesEntryInfo entryInfo = new ShowEntriesEntryInfo();

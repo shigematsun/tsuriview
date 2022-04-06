@@ -8,7 +8,8 @@ INSERT INTO m_prefecture
   (id, name)
 VALUES
   ('14', '神奈川県'),
-  ('22', '静岡県');
+  ('22', '静岡県'),
+  ('01', '北海道');
 
 INSERT INTO m_place
   (id, name, prefecture, tide_pc, tide_hc, map_url)

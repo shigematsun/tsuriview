@@ -13,26 +13,32 @@
     <v-card class="mx-auto pa-5">
       <v-card-title><b>場所登録</b></v-card-title>
       <v-form ref="form" class="mt-5">
-        <v-select
-          v-model="form.prefecture"
-          :items="prefectureList"
-          item-text="name"
-          item-value="id"
-          label="都道府県"
-          @change="this.setPlaceList"
-          :rules="[required]"
-        >
-        </v-select>
-        <v-select
-          v-model="form.id"
-          :items="placeList"
-          item-text="name"
-          item-value="id"
-          label="編集する場合は選択してください"
-          no-data-text="都道府県を選択してください"
-          flat
-          @change="this.showPlace"
-        ></v-select>
+        <v-row>
+          <v-col cols="6">
+            <v-select
+              v-model="form.prefecture"
+              :items="prefectureList"
+              item-text="name"
+              item-value="id"
+              label="都道府県"
+              @change="this.setPlaceList"
+              :rules="[required]"
+            >
+            </v-select>
+          </v-col>
+          <v-col cols="6">
+            <v-select
+              v-model="form.id"
+              :items="placeList"
+              item-text="name"
+              item-value="id"
+              label="編集する場合は選択してください"
+              no-data-text="都道府県を選択してください"
+              flat
+              @change="this.showPlace"
+            ></v-select>
+          </v-col>
+        </v-row>
         <v-divider></v-divider>
         <v-text-field
           v-model="form.name"
@@ -124,9 +130,9 @@ export default {
     },
     setPlaceList() {
       this.placeList = this.placeListMap[this.form.prefecture];
-      if (!this.placeList) this.placeList = {};
+      if (!this.placeList) this.placeList = [];
       this.placeList.unshift({ id: "", name: "【新規】" });
-      this.form.id = null;
+      this.initInput();
     },
     showPlace() {
       if (this.form.id) {

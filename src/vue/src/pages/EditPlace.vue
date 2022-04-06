@@ -124,6 +124,7 @@ export default {
     },
     setPlaceList() {
       this.placeList = this.placeListMap[this.form.prefecture];
+      if (!this.placeList) this.placeList = {};
       this.placeList.unshift({ id: "", name: "【新規】" });
       this.form.id = null;
     },

@@ -58,7 +58,8 @@ public class ShowFishService {
 		response.setTotal(
 				entryFishList.stream().map(EntryFish::getCount).reduce((accum, value) -> accum + value).orElse(0));
 		response.setMin(entryFishList.stream().map(EntryFish::getMin).min(Comparator.naturalOrder()).orElse(0));
-		response.setMax(entryFishList.stream().map(EntryFish::getMax).filter(Objects::nonNull)
+		response.setMax(entryFishList.stream()
+				.map(entryFish -> Objects.nonNull(entryFish.getMax()) ? entryFish.getMax() : entryFish.getMin())
 				.max(Comparator.naturalOrder()).orElse(response.getMin()));
 
 		response.setMonthCountList(IntStream.range(1, 13)

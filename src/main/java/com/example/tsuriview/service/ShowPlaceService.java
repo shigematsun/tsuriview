@@ -85,7 +85,8 @@ public class ShowPlaceService {
 			fishInfo.setCount(
 					e.getValue().stream().map(EntryFish::getCount).reduce((accum, value) -> accum + value).orElse(0));
 			fishInfo.setMin(e.getValue().stream().map(EntryFish::getMin).min(Comparator.naturalOrder()).orElse(0));
-			fishInfo.setMax(e.getValue().stream().map(EntryFish::getMax).filter(Objects::nonNull)
+			fishInfo.setMax(e.getValue().stream()
+					.map(entryFish -> Objects.nonNull(entryFish.getMax()) ? entryFish.getMax() : entryFish.getMin())
 					.max(Comparator.naturalOrder()).orElse(fishInfo.getMin()));
 			fishInfo.setMethodList(
 					e.getValue().stream().map(entryFish -> methodRepository.findById(entryFish.getMethod()))
@@ -138,7 +139,7 @@ public class ShowPlaceService {
 
 			return top;
 		}).sorted(Comparator.comparing(TopPlace::getCount).reversed()).collect(Collectors.toList());
-		
+
 		if (placeList.size() > TOP_PLACE_SIZE)
 			placeList = placeList.subList(0, TOP_PLACE_SIZE);
 		response.setPlaceList(placeList);

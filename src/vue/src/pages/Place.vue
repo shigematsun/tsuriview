@@ -2,31 +2,35 @@
   <div class="mt-15">
     <v-card max-width="740" class="mx-auto pa-5">
       <v-row class="mt-5">
-        <v-select
-          v-model="prefectureId"
-          :items="prefectureList"
-          item-text="name"
-          item-value="id"
-          label="都道府県"
-          @change="this.setPlaceList"
-        >
-        </v-select>
-        <v-select
-          v-model="placeId"
-          :items="placeList"
-          item-text="name"
-          item-value="id"
-          label="場所"
-          no-data-text="都道府県を選択してください"
-          @change="this.showData"
-        ></v-select>
+        <v-col cols="6">
+          <v-select
+            v-model="prefectureId"
+            :items="prefectureList"
+            item-text="name"
+            item-value="id"
+            label="都道府県"
+            @change="this.setPlaceList"
+          >
+          </v-select>
+        </v-col>
+        <v-col cols="6">
+          <v-select
+            v-model="placeId"
+            :items="placeList"
+            item-text="name"
+            item-value="id"
+            label="場所"
+            no-data-text="都道府県を選択してください"
+            @change="this.showData"
+          ></v-select>
+        </v-col>
       </v-row>
       <div v-if="placeId">
         <v-row class="pt-2">
           <iframe
             :src="this.place.mapUrl"
             width="720"
-            height="360"
+            height="200"
             style="border: 0"
             allowfullscreen=""
             loading="lazy"
@@ -36,22 +40,22 @@
           <v-divider></v-divider>
         </v-row>
         <v-row>
-          <v-col cols="3"> <b>釣行回数</b> </v-col>
-          <v-col cols="9"> {{ place.times }} 回</v-col>
+          <v-col cols="5"> <b>釣行回数</b> </v-col>
+          <v-col cols="7"> {{ place.times }} 回</v-col>
         </v-row>
         <v-row>
-          <v-col cols="3"> <b>トータル釣果</b> </v-col>
-          <v-col cols="9">
+          <v-col cols="12"> <b>トータル釣果</b> </v-col>
+          <v-col cols="12">
             <table border="1" style="border-collapse: collapse">
               <tr v-for="fish in place.fishList" :key="fish.id">
                 <td class="primary white--text text-center py-1" nowrap>
-                  <b class="mx-5">{{ fish.fishName }}</b>
+                  <b class="mx-2">{{ fish.fishName }}</b>
                 </td>
-                <td class="text-center px-5" nowrap>{{ fish.count }} 匹</td>
-                <td class="text-center px-5" nowrap>
+                <td class="text-center px-2" nowrap>{{ fish.count }} 匹</td>
+                <td class="text-center px-2">
                   {{ fish.min }}～{{ fish.max }}cm
                 </td>
-                <td class="text-center px-5">
+                <td class="text-center px-2">
                   <span v-for="method in fish.methodList" :key="method">
                     {{ method }}
                   </span>
@@ -61,17 +65,17 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-col cols="3"> <b>月別の魚</b> </v-col>
-          <v-col cols="9">
+          <v-col cols="12"> <b>月別の魚</b> </v-col>
+          <v-col cols="12">
             <table border="1" style="border-collapse: collapse">
               <tr
                 v-for="(monthFish, index) in place.monthFishList"
                 :key="index"
               >
                 <td class="primary white--text text-center py-1" nowrap>
-                  <b class="mx-5">{{ index + 1 }}月</b>
+                  <b class="mx-2">{{ index + 1 }}月</b>
                 </td>
-                <td class="px-5">
+                <td class="px-2">
                   <span v-for="fish in monthFish" :key="fish">
                     {{ fish }}
                   </span>
@@ -88,6 +92,7 @@
                 v-if="loaded"
                 :chartData="monthChartData"
                 :options="monthOptions"
+                :height="200"
               />
               <v-progress-circular
                 v-else-if="loaded != true"
@@ -120,7 +125,7 @@
           <b>{{ this.place.name }}の釣行</b>
         </v-card-title>
         <v-row>
-          <v-col cols="12" class="mt-n10">
+          <v-col cols="12" class="mt-n10 px-0">
             <Entries :condition="condition" ref="entries"></Entries>
           </v-col>
         </v-row>

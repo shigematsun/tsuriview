@@ -2,14 +2,14 @@
   <div>
     <div v-if="entryList.length">
       <v-row class="mt-5">
-        <v-col col="3" v-for="entry in entryList" :key="entry.id">
-          <v-card width="210" :to="'/entry/' + entry.id">
+        <v-col col="1" v-for="entry in entryList" :key="entry.id">
+          <v-card width="160" :to="'/entry/' + entry.id">
             <v-img
               v-if="entry.imageUrl"
               :src="entry.imageUrl"
-              height="160"
+              height="100"
             ></v-img>
-            <v-img v-else height="160" class="grey align-center">
+            <v-img v-else height="100" class="grey align-center">
               <v-layout justify-center>
                 <v-icon dark> mdi-image-off </v-icon>
               </v-layout>

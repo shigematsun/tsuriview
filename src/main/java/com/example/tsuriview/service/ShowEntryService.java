@@ -62,7 +62,7 @@ public class ShowEntryService {
 	@Value("${tide.url}")
 	private String TIDE_URL;
 
-	private static final String DATE_FORMAT = "yyyy年MM月dd日（E）";
+	private static final String DATE_FORMAT = "yyyy年MM月dd日";
 
 	public ShowEntryResponse createShowResponse(Integer id) {
 		ShowEntryResponse response = new ShowEntryResponse();

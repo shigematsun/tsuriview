@@ -6,22 +6,29 @@
         絞込条件
       </v-row>
       <v-row align="center" justify="center">
-        <div class="mx-auto" style="width: 170px">
+        <v-col cols="6" sm="5" md="3" lg="2" xl="2">
+        <!-- <div class="mx-auto" style="width: 170px"> -->
           <v-text-field
             v-model="condition.fromDate"
             type="date"
-            label="日付from"
+            label="日付（開始～）"
+            class="inputDate"
           />
-        </div>
-        <p>～</p>
-        <div class="mx-auto" style="width: 170px">
-          <v-text-field v-model="condition.toDate" type="date" label="日付to" />
-        </div>
-        <div class="mx-auto" style="width: 50px">
+        <!-- </div> -->
+        </v-col>
+        <v-col cols="6" sm="5" md="3" lg="2" xl="2">
+        <!-- <div class="mx-auto" style="width: 170px"> -->
+          <v-text-field v-model="condition.toDate" type="date" label="日付（～終了）" />
+        <!-- </div> -->
+        </v-col>
+        <v-col cols="3" sm="2" md="2" lg="1" xl="1">
+        <!-- <div class="mx-auto" style="width: 50px"> -->
           <v-select v-model="condition.month" :items="monthList" label="月">
           </v-select>
-        </div>
-        <div class="mx-auto" style="width: 100px">
+        </v-col>
+        <!-- </div> -->
+        <!-- <div class="mx-auto" style="width: 100px"> -->
+        <v-col cols="4" sm="6" md="4" lg="1" xl="1">
           <v-select
             v-model="condition.prefecture"
             :items="prefectureList"
@@ -31,8 +38,10 @@
             @change="this.setPlaceList"
           >
           </v-select>
-        </div>
-        <div class="mx-auto" style="width: 150px">
+        </v-col>
+        <!-- </div> -->
+        <!-- <div class="mx-auto" style="width: 150px"> -->
+        <v-col cols="5" sm="6" md="4" lg="2" xl="2">
           <v-select
             v-model="condition.place"
             :items="placeList"
@@ -41,8 +50,10 @@
             label="場所"
             no-data-text="都道府県を選択してください"
           ></v-select>
-        </div>
-        <div class="mx-auto" style="width: 150px">
+        </v-col>
+        <!-- </div> -->
+        <!-- <div class="mx-auto" style="width: 150px"> -->
+        <v-col cols="6" sm="6" md="4" lg="2" xl="2">
           <v-select
             v-model="condition.fish"
             :items="fishList"
@@ -50,8 +61,10 @@
             item-value="id"
             label="魚"
           ></v-select>
-        </div>
-        <div class="mx-auto" style="width: 150px">
+        </v-col>
+        <!-- </div> -->
+        <!-- <div class="mx-auto" style="width: 150px"> -->
+        <v-col cols="6" sm="6" md="4" lg="2" xl="2">
           <v-select
             v-model="condition.method"
             :items="methodList"
@@ -59,7 +72,8 @@
             item-value="id"
             label="釣り方"
           ></v-select>
-        </div>
+        </v-col>
+        <!-- </div> -->
       </v-row>
       <v-row>
         <v-btn class="ml-auto mr-10 pr-7" @click="this.clear">
@@ -72,7 +86,9 @@
         </v-btn>
       </v-row>
     </v-card>
-    <Entries :condition="condition" ref="entries"></Entries>
+    <div class="px-2">
+      <Entries :condition="condition" ref="entries"></Entries>
+    </div>
   </div>
 </template>
 

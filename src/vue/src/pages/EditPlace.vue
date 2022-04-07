@@ -68,7 +68,7 @@
       <iframe
         :src="form.mapUrl"
         width="460"
-        height="360"
+        height="200"
         style="border: 0"
         allowfullscreen=""
         loading="lazy"

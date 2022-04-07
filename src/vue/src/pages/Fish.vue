@@ -19,15 +19,13 @@
           <v-divider></v-divider>
         </v-row>
         <v-row>
-          <v-col cols="3"> <b>トータル釣果</b> </v-col>
-          <v-col cols="9"> {{ fish.total }} 匹</v-col>
+          <v-col cols="5"> <b>トータル釣果</b> </v-col>
+          <v-col cols="7"> {{ fish.total }} 匹</v-col>
         </v-row>
         <v-row>
-          <v-col cols="3"> <b>サイズ</b> </v-col>
-          <v-col cols="1"> 最大 </v-col>
-          <v-col cols="2"> {{ fish.max }}cm </v-col>
-          <v-col cols="1"> 最小 </v-col>
-          <v-col cols="2"> {{ fish.min }}cm </v-col>
+          <v-col cols="5"> <b>サイズ</b> </v-col>
+          <v-col cols="3"> <div>最大</div><div>最小</div> </v-col>
+          <v-col cols="4"> <div>{{ fish.max }}cm</div><div>{{ fish.min }}cm</div> </v-col>
         </v-row>
         <v-row>
           <v-card min-width="100%">
@@ -37,6 +35,7 @@
                 v-if="loaded"
                 :chartData="monthChartData"
                 :options="monthOptions"
+                :height="200"
               />
               <v-progress-circular
                 v-else-if="loaded != true"
@@ -54,6 +53,7 @@
                 v-if="loaded"
                 :chartData="timeChartData"
                 :options="timeOptions"
+                :height="200"
               />
               <v-progress-circular
                 v-else-if="loaded != true"
@@ -70,7 +70,7 @@
           <b>{{ this.fish.name }}の釣行</b>
         </v-card-title>
         <v-row>
-          <v-col cols="12" class="mt-n10">
+          <v-col cols="12" class="mt-n10 px-0">
             <Entries :condition="condition" ref="entries"></Entries>
           </v-col>
         </v-row>

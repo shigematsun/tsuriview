@@ -1,17 +1,17 @@
 <template>
   <div class="mt-15 mx-auto" style="max-width: 1200px">
-    <v-card class="mx-auto pa-5">
+    <v-card class="mx-auto py-5 px-2">
       <v-row>
         <v-card-title><b>最新の釣行</b></v-card-title>
       </v-row>
 
       <v-row class="mt-5">
         <v-col v-for="entry in entryList" :key="entry.id">
-          <v-card width="200" :to="'/entry/' + entry.id">
+          <v-card width="160" :to="'/entry/' + entry.id">
             <v-img
               v-if="entry.imageUrl"
               :src="entry.imageUrl"
-              height="160"
+              height="100"
             ></v-img>
             <v-img v-else height="160" class="grey align-center">
               <v-layout justify-center>
@@ -49,7 +49,7 @@
       </v-row>
     </v-card>
 
-    <v-card class="mx-auto pa-5 mt-5">
+    <v-card class="mx-auto py-5 px-2 mt-5">
       <v-row>
         <div class="ml-5" style="width: 50px">
           <v-select
@@ -68,10 +68,10 @@
           v-for="fish in fishList"
           :key="fish.fishId"
           class="ma-4"
-          style="width: 200px"
+          style="width: 150px"
         >
           <router-link :to="'/fish/' + fish.fishId">
-            <v-avatar size="200">
+            <v-avatar size="150">
               <img :src="fish.imageUrl" :alt="fish.name" />
             </v-avatar>
             <div class="text-center">
@@ -86,7 +86,7 @@
       </v-row>
     </v-card>
 
-    <v-card class="mx-auto pa-5 mt-5">
+    <v-card class="mx-auto py-5 px-2 mt-5">
       <v-row>
         <div class="ml-5" style="width: 50px">
           <v-select
@@ -102,7 +102,7 @@
 
       <v-row class="mt-5">
         <v-col v-for="place in placeList" :key="place.placeId">
-          <v-card width="200" :to="'/place/' + place.placeId">
+          <v-card width="150" :to="'/place/' + place.placeId">
             <v-card-title class="text-subtitle-1">
               <b>{{ place.name }}</b>
             </v-card-title>

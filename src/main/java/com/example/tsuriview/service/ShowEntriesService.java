@@ -63,7 +63,7 @@ public class ShowEntriesService {
 	@Value("${top.entry.size}")
 	private Integer topSize;
 
-	private static final String DATE_FORMAT = "yyyy年MM月dd日（E）";
+	private static final String DATE_FORMAT = "yyyy年MM月dd日";
 
 	public SearchEntriesInitResponse createSearchInitResponse() {
 		SearchEntriesInitResponse response = new SearchEntriesInitResponse();
@@ -96,7 +96,7 @@ public class ShowEntriesService {
 						Sort.by("date").descending().and(Sort.by("startTime").descending())));
 		// @formatter:on
 
-		SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT, Locale.JAPAN);
+		SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
 
 		response.setEntryList(entryList.stream().map(entry -> {
 			ShowEntriesEntryInfo entryInfo = new ShowEntriesEntryInfo();

@@ -72,7 +72,7 @@
         >
           <router-link :to="'/fish/' + fish.fishId">
             <v-avatar size="150">
-              <img :src="fish.imageUrl" :alt="fish.name" />
+              <v-img :src="fish.imageUrl" :alt="fish.name" />
             </v-avatar>
             <div class="text-center">
               <b>{{ fish.name }}</b>

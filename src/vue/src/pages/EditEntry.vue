@@ -424,16 +424,16 @@ export default {
         .post("/images", formData, config)
         .then((res) => {
           this.messages.push(res.data.message);
-        })
-        .catch((err) => {
-          alert(err);
-        });
 
-      // 画像リストの再取得
-      this.$axios
-        .get("/images")
-        .then((res) => {
-          this.imageList = res.data;
+          // 画像リストの再取得
+          this.$axios
+            .get("/images")
+            .then((res) => {
+              this.imageList = res.data;
+            })
+            .catch((err) => {
+              alert(err);
+            });
         })
         .catch((err) => {
           alert(err);

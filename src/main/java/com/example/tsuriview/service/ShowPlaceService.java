@@ -11,6 +11,7 @@ import java.util.stream.IntStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -56,7 +57,7 @@ public class ShowPlaceService {
 
 	public ShowPlaceInitResponse createInitResponse() {
 		ShowPlaceInitResponse response = new ShowPlaceInitResponse();
-		response.setPrefectureList(prefectureRepository.findAll());
+		response.setPrefectureList(prefectureRepository.findAll(Sort.by(Sort.Direction.ASC, "id")));
 		List<Place> placeList = placeRepository.findAll();
 		// 場所を都道府県ごとのマップに変換
 		Map<String, List<Place>> placeListMap = placeList.stream().collect(Collectors.groupingBy(Place::getPrefecture));

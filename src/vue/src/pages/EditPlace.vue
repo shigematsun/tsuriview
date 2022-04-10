@@ -12,7 +12,7 @@
 
     <v-card class="mx-auto pa-5">
       <v-card-title><b>場所登録</b></v-card-title>
-      <v-form ref="form" class="mt-5">
+      <v-form ref="form">
         <v-row>
           <v-col cols="6">
             <v-select
@@ -65,14 +65,15 @@
           :rules="[length1000]"
         />
       </v-form>
-      <iframe
-        :src="form.mapUrl"
-        width="460"
-        height="200"
-        style="border: 0"
-        allowfullscreen=""
-        loading="lazy"
-      ></iframe>
+      <v-row v-if="form.mapUrl">
+        <iframe
+          :src="form.mapUrl"
+          width="460"
+          height="200"
+          style="border: 0"
+          allowfullscreen=""
+        ></iframe>
+      </v-row>
       <v-btn color="accent" class="my-4" @click="this.send">
         <v-icon dark left> mdi-checkbox-marked-circle </v-icon>
         登録

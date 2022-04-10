@@ -13,7 +13,7 @@
               :src="entry.imageUrl"
               height="100"
             ></v-img>
-            <v-img v-else height="160" class="grey align-center">
+            <v-img v-else height="100" class="grey align-center">
               <v-layout justify-center>
                 <v-icon dark> mdi-image-off </v-icon>
               </v-layout>
@@ -45,7 +45,7 @@
       </v-row>
 
       <v-row class="mb-0">
-        <v-btn color="accent" class="mx-auto" to="/entries"> もっと見る </v-btn>
+        <v-btn color="accent" class="mx-auto" to="/entries"> 釣行検索へ </v-btn>
       </v-row>
     </v-card>
 
@@ -82,7 +82,7 @@
       </v-row>
 
       <v-row class="mb-0">
-        <v-btn color="accent" class="mx-auto" to="/fish"> もっと見る </v-btn>
+        <v-btn color="accent" class="mx-auto" to="/fish"> 魚情報へ </v-btn>
       </v-row>
     </v-card>
 
@@ -101,7 +101,7 @@
       </v-row>
 
       <v-row class="mt-5">
-        <v-col v-for="place in placeList" :key="place.placeId">
+        <div v-for="place in placeList" :key="place.placeId" class="ma-4">
           <v-card width="150" :to="'/place/' + place.placeId">
             <v-card-title class="text-subtitle-1">
               <b>{{ place.name }}</b>
@@ -124,11 +124,11 @@
               </v-row>
             </v-card-text>
           </v-card>
-        </v-col>
+        </div>
       </v-row>
 
       <v-row class="mb-0">
-        <v-btn color="accent" class="mx-auto" to="/place"> もっと見る </v-btn>
+        <v-btn color="accent" class="mx-auto" to="/place"> 場所情報へ </v-btn>
       </v-row>
     </v-card>
   </div>

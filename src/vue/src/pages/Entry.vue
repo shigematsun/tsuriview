@@ -3,12 +3,12 @@
     <v-card max-width="740" class="mx-auto pa-5">
       <v-row>
         <v-btn
-          v-if="this.entry.prevId"
+          v-if="this.entry.nextId"
           class="mr-auto"
           link
-          :to="'/entry/' + this.entry.prevId"
+          :to="'/entry/' + this.entry.nextId"
         >
-          ◀ 前
+          ◀ 次
         </v-btn>
         <v-btn
           v-if="this.$store.getters.isAuthenticated"
@@ -19,12 +19,12 @@
           <v-icon dark> mdi-pencil </v-icon>編集</v-btn
         >
         <v-btn
-          v-if="this.entry.nextId"
+          v-if="this.entry.prevId"
           class="ml-auto"
           link
-          :to="'/entry/' + this.entry.nextId"
+          :to="'/entry/' + this.entry.prevId"
         >
-          次 ▶
+          前 ▶
         </v-btn>
       </v-row>
       <v-row class="pt-2">
@@ -132,20 +132,28 @@
       </v-row>
       <v-row>
         <v-btn
-          v-if="this.entry.prevId"
-          class="mr-auto"
-          link
-          :to="'/entry/' + this.entry.prevId"
-        >
-          ◀ 前
-        </v-btn>
-        <v-btn
           v-if="this.entry.nextId"
-          class="ml-auto"
+          class="mr-auto"
           link
           :to="'/entry/' + this.entry.nextId"
         >
-          次 ▶
+          ◀ 次
+        </v-btn>
+        <v-btn
+          v-if="this.$store.getters.isAuthenticated"
+          color="accent"
+          class="mx-auto"
+          :to="'/edit/entry/' + this.entryId"
+        >
+          <v-icon dark> mdi-pencil </v-icon>編集</v-btn
+        >
+        <v-btn
+          v-if="this.entry.prevId"
+          class="ml-auto"
+          link
+          :to="'/entry/' + this.entry.prevId"
+        >
+          前 ▶
         </v-btn>
       </v-row>
     </v-card>

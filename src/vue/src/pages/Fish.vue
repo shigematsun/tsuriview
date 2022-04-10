@@ -1,15 +1,17 @@
 <template>
   <div class="mt-15">
     <v-card max-width="740" class="mx-auto pa-5">
-      <v-row class="mt-5">
+      <v-row>
+        <v-col col="6">
         <v-select
           v-model="fishId"
           :items="fishList"
           item-text="name"
           item-value="id"
-          label="魚"
+          label="魚を選択してください"
           @change="this.showData"
         ></v-select>
+        </v-col>
       </v-row>
       <div v-if="fishId">
         <v-row class="pt-2">

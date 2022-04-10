@@ -1,7 +1,7 @@
 <template>
   <div class="mt-15">
     <v-card max-width="740" class="mx-auto pa-5">
-      <v-row class="mt-5">
+      <v-row>
         <v-col cols="6">
           <v-select
             v-model="prefectureId"

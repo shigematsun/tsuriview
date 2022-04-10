@@ -2,7 +2,7 @@
   <div>
     <div v-if="entryList.length">
       <v-row class="mt-5">
-        <v-col col="1" v-for="entry in entryList" :key="entry.id">
+        <div v-for="entry in entryList" :key="entry.id" class="ma-3">
           <v-card width="160" :to="'/entry/' + entry.id">
             <v-img
               v-if="entry.imageUrl"
@@ -37,7 +37,7 @@
               </v-row>
             </v-card-text>
           </v-card>
-        </v-col>
+        </div>
       </v-row>
       <v-pagination
         v-model="page"

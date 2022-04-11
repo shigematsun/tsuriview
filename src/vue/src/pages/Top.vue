@@ -51,7 +51,7 @@
 
     <v-card class="mx-auto py-5 px-2 mt-5">
       <v-row>
-        <div class="ml-5" style="width: 50px">
+        <div class="ml-5" style="width: 60px">
           <v-select
             v-model="month"
             :items="monthList"
@@ -88,7 +88,7 @@
 
     <v-card class="mx-auto py-5 px-2 mt-5">
       <v-row>
-        <div class="ml-5" style="width: 50px">
+        <div class="ml-5" style="width: 60px">
           <v-select
             v-model="month"
             :items="monthList"

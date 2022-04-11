@@ -5,7 +5,7 @@ import java.util.List;
 import lombok.Data;
 
 @Data
-public class TopFishResponse {
+public class FishListResponse {
 	
 	private List<FishIcon> fishList;
 

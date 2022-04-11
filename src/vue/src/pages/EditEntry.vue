@@ -300,14 +300,7 @@ export default {
       .catch((err) => {
         alert(err);
       });
-    this.$axios
-      .get("/images")
-      .then((res) => {
-        this.imageList = res.data;
-      })
-      .catch((err) => {
-        alert(err);
-      });
+    this.getImageList();
   },
   complete: function () {
     // clearInterval(this.timer)
@@ -383,6 +376,16 @@ export default {
         this.upload(i, this.selectedFiles[i]);
       }
     },
+    getImageList() {
+      this.$axios
+        .get("/images")
+        .then((res) => {
+          this.imageList = res.data;
+        })
+        .catch((err) => {
+          alert(err);
+        });
+    },
     send() {
       if (!this.editing) {
         return;
@@ -399,6 +402,7 @@ export default {
         this.$axios
           .post("/entries", this.editing, config)
           .then(() => {
+            this.getImageList();
             this.successAlert = true;
             this.initInput();
             this.$refs.form.reset();
@@ -424,16 +428,7 @@ export default {
         .post("/images", formData, config)
         .then((res) => {
           this.messages.push(res.data.message);
-
-          // 画像リストの再取得
-          this.$axios
-            .get("/images")
-            .then((res) => {
-              this.imageList = res.data;
-            })
-            .catch((err) => {
-              alert(err);
-            });
+          this.getImageList();
         })
         .catch((err) => {
           alert(err);

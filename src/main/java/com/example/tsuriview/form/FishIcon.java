@@ -3,7 +3,7 @@ package com.example.tsuriview.form;
 import lombok.Data;
 
 @Data
-public class TopFish {
+public class FishIcon {
 	
 	private Integer fishId;
 	

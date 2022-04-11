@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.tsuriview.form.EditFishForm;
 import com.example.tsuriview.form.EditFishInitResponse;
+import com.example.tsuriview.form.FishListResponse;
 import com.example.tsuriview.form.ShowFishInitResponse;
 import com.example.tsuriview.form.ShowFishResponse;
 import com.example.tsuriview.form.TopFishResponse;
@@ -43,6 +44,11 @@ public class FishController {
 	@GetMapping(value = "/top")
 	public TopFishResponse topFish(@RequestParam("month") Integer month) {
 		return showFishService.createTopResponse(month);
+	}
+
+	@GetMapping()
+	public FishListResponse showFishList() {
+		return showFishService.createFishListResponse();
 	}
 
 	@GetMapping(value = "/edit/init")

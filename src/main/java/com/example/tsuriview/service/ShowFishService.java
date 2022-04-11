@@ -17,7 +17,8 @@ import com.example.tsuriview.entity.EntryFish;
 import com.example.tsuriview.entity.Fish;
 import com.example.tsuriview.form.ShowFishInitResponse;
 import com.example.tsuriview.form.ShowFishResponse;
-import com.example.tsuriview.form.TopFish;
+import com.example.tsuriview.form.FishIcon;
+import com.example.tsuriview.form.FishListResponse;
 import com.example.tsuriview.form.TopFishResponse;
 import com.example.tsuriview.repository.EntryFishRepository;
 import com.example.tsuriview.repository.EntryRepository;
@@ -83,19 +84,33 @@ public class ShowFishService {
 		Map<Integer, Integer> fishMap = entryList.stream().flatMap(entry -> entry.getFishList().stream())
 				.collect(Collectors.groupingBy(EntryFish::getFish, Collectors.summingInt(EntryFish::getCount)));
 
-		List<TopFish> fishList = fishMap.keySet().stream().map(fishId -> {
-			TopFish top = new TopFish();
+		List<FishIcon> fishList = fishMap.keySet().stream().map(fishId -> {
+			FishIcon top = new FishIcon();
 			top.setFishId(fishId);
 			Fish fish = fishRepository.findById(fishId).get();
 			top.setName(fish.getName());
 			top.setImageUrl(imageUtils.getUrlByKey(fish.getImageKey()));
 			top.setCount(fishMap.get(fishId));
 			return top;
-		}).sorted(Comparator.comparing(TopFish::getCount).reversed()).collect(Collectors.toList());
+		}).sorted(Comparator.comparing(FishIcon::getCount).reversed()).collect(Collectors.toList());
 		if (fishList.size() > TOP_FISH_SIZE)
 			fishList = fishList.subList(0, TOP_FISH_SIZE);
 		response.setFishList(fishList);
 
+		return response;
+	}
+
+	public FishListResponse createFishListResponse() {
+		FishListResponse response = new FishListResponse();
+		List<Fish> fishList = fishRepository.findAll(Sort.by(Sort.Direction.ASC, "name"));
+		response.setFishList(fishList.stream().map(fish -> {
+			FishIcon icon = new FishIcon();
+			icon.setFishId(fish.getId());
+			icon.setName(fish.getName());
+			icon.setImageUrl(imageUtils.getUrlByKey(fish.getImageKey()));
+			icon.setCount(null);
+			return icon;
+		}).collect(Collectors.toList()));
 		return response;
 	}
 }

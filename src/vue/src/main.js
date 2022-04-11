@@ -10,6 +10,7 @@ import Top from "./pages/Top"
 import SearchEntries from "./pages/SearchEntries"
 import Place from "./pages/Place"
 import Fish from "./pages/Fish"
+import FishList from "./pages/FishList"
 import vuetify from './plugins/vuetify'
 import "vuetify/dist/vuetify.min.css"
 import '@mdi/font/css/materialdesignicons.css'
@@ -33,7 +34,8 @@ const routes = [
     {path: '/login', component: Login},
     {path: '/entry/:id', component: Entry},
     {path: '/place/:id?', component: Place},
-    {path: '/fish/:id?', component: Fish},
+    {path: '/fish/:id', component: Fish},
+    {path: '/fish/', component: FishList},
     {path: '/edit/entry/:id', component: EditEntry},
     {path: '/edit/method', component: EditMethod},
     {path: '/edit/fish', component: EditFish},

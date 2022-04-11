@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-15 mx-auto" style="max-width: 1200px">
+  <div class="mt-15 mx-auto" style="max-width: 1100px">
     <v-card class="mx-auto py-5 px-2">
       <v-row>
         <div

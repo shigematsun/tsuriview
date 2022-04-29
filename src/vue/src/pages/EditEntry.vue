@@ -157,7 +157,7 @@
                 label="メモ"
                 required
                 filled
-                rows="10"
+                rows="2"
                 :rules="[length1000]"
               >
               </v-textarea>
@@ -170,7 +170,7 @@
                   画像選択
                 </v-btn>
               </template>
-              <v-row>
+              <v-row v-if="imageList.length > 0">
                 <v-col
                   v-for="image in imageList"
                   :key="image.id"
@@ -197,6 +197,11 @@
                       </v-row>
                     </template>
                   </v-img>
+                </v-col>
+              </v-row>
+              <v-row v-else>
+                <v-col class="white--text text-center">
+                  <h2>画像をアップロードしてください</h2>
                 </v-col>
               </v-row>
             </v-dialog>
@@ -228,8 +233,12 @@
           </v-form>
         </v-card-text>
       </v-card>
-      <v-card max-width="1000" class="mx-auto">
-        <v-card-title>画像アップロード</v-card-title>
+      <v-card max-width="1000" class="mx-auto mt-5">
+        <v-card-text>
+          <div class="mt-4">
+            <h2>画像アップロード</h2>
+          </div>
+        </v-card-text>
         <v-card-actions>
           <v-form>
             <v-file-input
@@ -257,6 +266,7 @@
 </template>
 
 <script>
+import Compressor from "compressorjs";
 export default {
   name: "EditEntry",
   components: {},
@@ -301,9 +311,6 @@ export default {
         alert(err);
       });
     this.getImageList();
-  },
-  complete: function () {
-    // clearInterval(this.timer)
   },
   data: () => ({
     editing: null,
@@ -373,7 +380,17 @@ export default {
       this.messages = [];
 
       for (let i = 0; i < this.selectedFiles.length; i++) {
-        this.upload(i, this.selectedFiles[i]);
+        var me = this;
+        new Compressor(this.selectedFiles[i], {
+          quality: 0.6,
+          maxWidth: 720,
+          success(result) {
+            me.upload(i, result, me.selectedFiles[i].name);
+          },
+          error(err) {
+            console.log(err.message);
+          },
+        });
       }
     },
     getImageList() {
@@ -416,9 +433,11 @@ export default {
           });
       }
     },
-    upload(idx, file) {
+    upload(idx, file, name) {
       let formData = new FormData();
       formData.append("file", file);
+      formData.append("idx", idx);
+      formData.append("name", name);
       let config = {
         headers: {
           "content-type": "multipart/form-data",

@@ -1,8 +1,8 @@
 package com.example.tsuriview.service;
 
 import java.io.InputStream;
-import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -33,10 +33,11 @@ public class AmazonS3Service {
 	@Value("${aws.bucketName}")
 	private String bucketName;
 
-	public String putObject(InputStream fileInputStream, String filename, String contentType, long contentLength) {
+	public String putObject(InputStream fileInputStream, String filename, String contentType, long contentLength,
+			Integer idx) {
 		try {
-			String key = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS").format(LocalDateTime.now())
-					+ "/" + filename; // ファイル名が同じ場合にかぶらないようにキーにdatetimeを使用
+			String key = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS").format(LocalDateTime.now()) + "/" + idx + "_"
+					+ filename; // ファイル名が同じ場合にかぶらないようにキーにdatetimeとidxを使用
 			ObjectMetadata objectMetadata = new ObjectMetadata();
 			objectMetadata.setContentType(contentType);
 			objectMetadata.setContentLength(contentLength);

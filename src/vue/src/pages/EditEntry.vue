@@ -385,7 +385,7 @@ export default {
           quality: 0.6,
           maxWidth: 720,
           success(result) {
-            me.upload(i, result, me.selectedFiles[i].name);
+            me.upload(result, me.selectedFiles[i].name);
           },
           error(err) {
             console.log(err.message);
@@ -433,10 +433,9 @@ export default {
           });
       }
     },
-    upload(idx, file, name) {
+    upload(file, name) {
       let formData = new FormData();
       formData.append("file", file);
-      formData.append("idx", idx);
       formData.append("name", name);
       let config = {
         headers: {

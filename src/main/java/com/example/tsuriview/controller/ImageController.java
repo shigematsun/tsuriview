@@ -30,11 +30,10 @@ public class ImageController {
 
 	@PostMapping()
 	public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file,
-			@RequestParam("idx") Integer idx, @RequestParam("name") String name) {
+			@RequestParam("name") String name) {
 		String message = "";
 		try {
-			String key = storageService.putObject(file.getInputStream(), name, file.getContentType(), file.getSize(),
-					idx);
+			String key = storageService.putObject(file.getInputStream(), name, file.getContentType(), file.getSize());
 
 			imageService.regist(key);
 			message = "ファイルのアップロードに成功しました。: " + name;

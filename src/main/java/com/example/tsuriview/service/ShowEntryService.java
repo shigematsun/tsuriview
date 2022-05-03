@@ -5,6 +5,7 @@ import java.text.MessageFormat;
 import java.util.Calendar;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -62,7 +63,7 @@ public class ShowEntryService {
 	@Value("${tide.url}")
 	private String TIDE_URL;
 
-	private static final String DATE_FORMAT = "yyyy年MM月dd日";
+	private static final String DATE_FORMAT = "yyyy年MM月dd日(E)";
 
 	public ShowEntryResponse createShowResponse(Integer id) {
 		ShowEntryResponse response = new ShowEntryResponse();
@@ -72,7 +73,7 @@ public class ShowEntryService {
 
 		Entry entry = entryRepository.getById(id);
 
-		SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+		SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT, Locale.JAPANESE);
 		response.setDate(sdf.format(entry.getDate()));
 
 		response.setStartTime(entry.getStartTime());

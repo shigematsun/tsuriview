@@ -33,11 +33,10 @@ public class AmazonS3Service {
 	@Value("${aws.bucketName}")
 	private String bucketName;
 
-	public String putObject(InputStream fileInputStream, String filename, String contentType, long contentLength,
-			Integer idx) {
+	public String putObject(InputStream fileInputStream, String filename, String contentType, long contentLength) {
 		try {
-			String key = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS").format(LocalDateTime.now()) + "/" + idx + "_"
-					+ filename; // ファイル名が同じ場合にかぶらないようにキーにdatetimeとidxを使用
+			// ファイル名が同じ場合にかぶらないようにキーにyyyyMMddHHmmssSSSを使用
+			String key = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS").format(LocalDateTime.now()) + "/" + filename;
 			ObjectMetadata objectMetadata = new ObjectMetadata();
 			objectMetadata.setContentType(contentType);
 			objectMetadata.setContentLength(contentLength);

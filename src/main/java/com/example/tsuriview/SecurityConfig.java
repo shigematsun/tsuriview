@@ -40,13 +40,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             + "id AS username, "
             + "password AS password, "
             + "true "
-            + "FROM usertbl "
+            + "FROM m_user "
             + "WHERE id = ?";
 
     private static final String ROLE_SQL = "SELECT "
             + "id AS username, "
             + "role "
-            + "FROM usertbl "
+            + "FROM m_user "
             + "WHERE id = ?";
 
     @Override

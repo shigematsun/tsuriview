@@ -1,8 +1,8 @@
-INSERT INTO usertbl
-  (id, password, role)
+INSERT INTO m_user
+  (id, password, role, display_name)
 VALUES
-  ('user1', '$2a$10$xRTXvpMWly0oGiu65WZlm.3YL95LGVV2ASFjDhe6WF4.Qji1huIPa', 'admin'),
-  ('user2', '$2a$10$xRTXvpMWly0oGiu65WZlm.3YL95LGVV2ASFjDhe6WF4.Qji1huIPa', 'general');
+  ('user1', '$2a$10$xRTXvpMWly0oGiu65WZlm.3YL95LGVV2ASFjDhe6WF4.Qji1huIPa', 'admin', '管理ユーザ'),
+  ('user2', '$2a$10$xRTXvpMWly0oGiu65WZlm.3YL95LGVV2ASFjDhe6WF4.Qji1huIPa', 'general', '一般ユーザ');
 
 INSERT INTO m_prefecture
   (id, name)
@@ -62,5 +62,6 @@ VALUES
   (2, 2, 1, 1, 15, null, 2, '10', '11', '2022-02-06 14:10:21.319', '2022-02-06 14:10:21.319'),
   (5, 2, 1, 1, 15, null, 2, '10', '11', '2022-02-06 14:10:21.319', '2022-02-06 14:10:21.319');
 
-  
+
+
 

@@ -95,7 +95,7 @@ public class EditEntryService {
 		return response;
 	}
 
-	public String editEntry(EditEntryForm request) {
+	public String editEntry(EditEntryForm request, String userId) {
 		Entry entry = request.getId().map(id -> entryRepository.findById(id).get()).orElse(new Entry());
 		entry.setDate(request.getDate());
 		entry.setStartTime(request.getStartTime());
@@ -103,6 +103,7 @@ public class EditEntryService {
 		entry.setPrefecture(request.getPrefecture());
 		entry.setPlace(request.getPlace());
 		entry.setMemo(request.getMemo());
+		entry.setUserId(userId);
 
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(request.getDate());
@@ -135,6 +136,7 @@ public class EditEntryService {
 				entryFish.setMethod(fishInfo.getMethod());
 				entryFish.setTimeHour(fishInfo.getTime().split(":")[0]);
 				entryFish.setTimeMinute(fishInfo.getTime().split(":")[1]);
+				entryFish.setUserId(userId);
 				fishList.add(entryFish);
 			}
 			entryFishRepository.saveAll(fishList);

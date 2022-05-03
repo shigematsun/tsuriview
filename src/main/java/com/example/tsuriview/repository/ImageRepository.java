@@ -12,7 +12,7 @@ public interface ImageRepository extends JpaRepository<Image, Integer> {
 	
 	List<Image> findByEntryId(Integer id);
 	
-	List<Image> findByEntryIdIsNull();
+	List<Image> findByEntryIdIsNullAndUserId(String userId);
 	
 	List<Image> findByEntryIdAndEntryIndex(Integer entryId, Integer entryIndex);
 	

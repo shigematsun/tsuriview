@@ -42,6 +42,7 @@ CREATE TABLE image (
   entry_index INTEGER,
   created_datetime TIMESTAMP NOT NULL,
   updated_datetime TIMESTAMP NOT NULL,
+  user_id VARCHAR(100) NOT NULL,
   PRIMARY KEY(id)
 );
 
@@ -56,6 +57,7 @@ CREATE TABLE entry (
   memo VARCHAR(1000),
   created_datetime TIMESTAMP NOT NULL,
   updated_datetime TIMESTAMP NOT NULL,
+  user_id VARCHAR(100) NOT NULL,
   PRIMARY KEY(id)
 );
 
@@ -71,5 +73,6 @@ CREATE TABLE entry_fish (
   time_minute VARCHAR(2) NOT NULL,
   created_datetime TIMESTAMP NOT NULL,
   updated_datetime TIMESTAMP NOT NULL,
+  user_id VARCHAR(100) NOT NULL,
   PRIMARY KEY(entry_id, index)
 );

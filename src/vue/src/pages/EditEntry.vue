@@ -247,6 +247,7 @@
               accept="image/*"
               label="ファイル"
               v-on:change="selectFile"
+              v-if="fileInputView"
             >
             </v-file-input>
             <v-btn @click="this.uploadFiles">
@@ -262,6 +263,12 @@
         </v-card-text>
       </v-card>
     </v-col>
+    <v-overlay :value="uploadProgress">
+      <div class="text-center">
+        <v-progress-circular indeterminate color="primary">
+        </v-progress-circular>
+      </div>
+    </v-overlay>
   </v-row>
 </template>
 
@@ -317,6 +324,9 @@ export default {
     fishItems: [],
     selectedImages: [],
     imageDialog: false,
+    uploadProgress: false,
+    uploadCount: 0,
+    fileInputView: true,
     messages: [],
     imageList: [],
     prefectureList: [],
@@ -378,6 +388,9 @@ export default {
     },
     uploadFiles() {
       this.messages = [];
+      if (this.selectedFiles.length < 1) return;
+      this.uploadProgress = true;
+      this.uploadCount = this.selectedFiles.length;
 
       for (let i = 0; i < this.selectedFiles.length; i++) {
         var me = this;
@@ -388,10 +401,41 @@ export default {
             me.upload(result, me.selectedFiles[i].name);
           },
           error(err) {
+            this.uploadProgress = false;
             console.log(err.message);
           },
         });
       }
+    },
+    upload(file, name) {
+      let formData = new FormData();
+      formData.append("file", file);
+      formData.append("name", name);
+      let config = {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      };
+      this.$axios
+        .post("/images", formData, config)
+        .then((res) => {
+          this.messages.push(res.data.message);
+          this.getImageList();
+          this.uploadCount--;
+          if (this.uploadCount == 0) {
+            // アップロード完了
+            this.uploadProgress = false;
+            // アップロードファイルクリア
+            this.fileInputView = false;
+            this.$nextTick(function () {
+              this.fileInputView = true;
+            });
+          }
+        })
+        .catch((err) => {
+          this.uploadProgress = false;
+          alert(err);
+        });
     },
     getImageList() {
       this.$axios
@@ -432,25 +476,6 @@ export default {
             alert(err);
           });
       }
-    },
-    upload(file, name) {
-      let formData = new FormData();
-      formData.append("file", file);
-      formData.append("name", name);
-      let config = {
-        headers: {
-          "content-type": "multipart/form-data",
-        },
-      };
-      this.$axios
-        .post("/images", formData, config)
-        .then((res) => {
-          this.messages.push(res.data.message);
-          this.getImageList();
-        })
-        .catch((err) => {
-          alert(err);
-        });
     },
   },
 };

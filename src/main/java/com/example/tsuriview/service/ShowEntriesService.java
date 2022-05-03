@@ -30,6 +30,7 @@ import com.example.tsuriview.repository.ImageRepository;
 import com.example.tsuriview.repository.MethodRepository;
 import com.example.tsuriview.repository.PlaceRepository;
 import com.example.tsuriview.repository.PrefectureRepository;
+import com.example.tsuriview.repository.UserRepository;
 import com.example.tsuriview.util.ImageUtils;
 
 @Service
@@ -37,21 +38,18 @@ public class ShowEntriesService {
 
 	@Autowired
 	EntryRepository entryRepository;
-
 	@Autowired
 	ImageRepository imageRepository;
-
 	@Autowired
 	PrefectureRepository prefectureRepository;
-
 	@Autowired
 	PlaceRepository placeRepository;
-
 	@Autowired
 	FishRepository fishRepository;
-
 	@Autowired
 	MethodRepository methodRepository;
+	@Autowired
+	UserRepository userRepository;
 
 	@Autowired
 	ImageUtils imageUtils;
@@ -103,6 +101,7 @@ public class ShowEntriesService {
 			List<Image> image = imageRepository.findByEntryIdAndEntryIndex(entry.getId(), 1);
 			entryInfo.setImageUrl(image.isEmpty() ? "" : imageUtils.getUrlByKey(image.get(0).getKey()));
 			entryInfo.setId(entry.getId());
+			entryInfo.setUserName(userRepository.findById(entry.getUserId()).get().getDisplayName());
 			entryInfo.setDate(sdf.format(entry.getDate()));
 			entryInfo.setPlace(placeRepository.findById(entry.getPlace()).map(Place::getName).orElse(""));
 			entryInfo.setFishList(entry.getFishList().stream().map(fish -> fish.getFish())
@@ -130,6 +129,7 @@ public class ShowEntriesService {
 			List<Image> image = imageRepository.findByEntryIdAndEntryIndex(entry.getId(), 1);
 			entryInfo.setImageUrl(image.isEmpty() ? "" : imageUtils.getUrlByKey(image.get(0).getKey()));
 			entryInfo.setId(entry.getId());
+			entryInfo.setUserName(userRepository.findById(entry.getUserId()).get().getDisplayName());
 			entryInfo.setDate(sdf.format(entry.getDate()));
 			entryInfo.setPlace(placeRepository.findById(entry.getPlace()).map(Place::getName).orElse(""));
 			entryInfo.setFishList(entry.getFishList().stream().map(fish -> fish.getFish())

@@ -86,4 +86,3 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.headers().frameOptions().disable(); // H2DBデバッグ用
     }
 }
-

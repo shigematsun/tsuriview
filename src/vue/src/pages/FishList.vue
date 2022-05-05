@@ -29,15 +29,26 @@ export default {
     fishList: [],
   }),
   mounted() {
-    let params = {};
-    params.params = {};
-    params.params.userId = this.$store.getters.selectedUser;
-    
-    this.$axios.get("/fishes", params).then((res) => {
-      this.fishList = res.data.fishList;
-    });
+    this.loadFishList();
+
+    this.$store.watch(
+      (state, getters) => getters.selectedUser,
+      () => {
+        this.loadFishList();
+      }
+    );
   },
   computed: {},
-  methods: {},
+  methods: {
+    loadFishList() {
+      let params = {};
+      params.params = {};
+      params.params.userId = this.$store.getters.selectedUser;
+
+      this.$axios.get("/fishes", params).then((res) => {
+        this.fishList = res.data.fishList;
+      });
+    },
+  },
 };
 </script>

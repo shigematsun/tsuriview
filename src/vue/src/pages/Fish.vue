@@ -261,6 +261,16 @@ export default {
   },
   mounted() {
     this.loadFish();
+
+    this.$store.watch(
+      (state, getters) => getters.selectedUser,
+      () => {
+        // 別画面でも反応してしまうため
+        if (this.$refs.entries && this.fishId) {
+          this.showData();
+        }
+      }
+    );
   },
 };
 </script>

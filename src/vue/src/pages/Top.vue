@@ -152,18 +152,28 @@ export default {
     let now = new Date();
     this.month = now.getMonth() + 1;
 
-    let params = {};
-    params.params = {};
-    params.params.userId = this.$store.getters.selectedUser;
-
-    this.$axios.get("/entries/top", params).then((res) => {
-      this.entryList = res.data.entryList;
-    });
-
+    this.loadEntry();
     this.loadFishPlace();
+
+    this.$store.watch(
+      (state, getters) => getters.selectedUser,
+      () => {
+        this.loadEntry();
+        this.loadFishPlace();
+      }
+    );
   },
   computed: {},
   methods: {
+    loadEntry() {
+      let params = {};
+      params.params = {};
+      params.params.userId = this.$store.getters.selectedUser;
+
+      this.$axios.get("/entries/top", params).then((res) => {
+        this.entryList = res.data.entryList;
+      });
+    },
     loadFishPlace() {
       let params = {};
       params.params = {};

@@ -146,7 +146,9 @@ export default {
   data: () => ({
     place: {},
     prefectureId: 0,
+    tempPrefectureId: 0,
     placeId: 0,
+    tempPlaceId: 0,
     prefectureList: [],
     placeListMap: {},
     placeList: [],
@@ -195,6 +197,7 @@ export default {
           this.prefectureList = res.data.prefectureList;
           this.placeListMap = res.data.placeListMap;
           this.placeId = this.$route.params.id;
+
           if (this.placeId) {
             this.showData();
           }
@@ -276,6 +279,16 @@ export default {
   },
   mounted() {
     this.loadPlace();
+
+    this.$store.watch(
+      (state, getters) => getters.selectedUser,
+      () => {
+        // 別画面でも反応してしまうため
+        if (this.$refs.entries && this.placeId) {
+          this.showData();
+        }
+      }
+    );
   },
 };
 </script>

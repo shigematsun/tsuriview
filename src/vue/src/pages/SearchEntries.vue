@@ -15,7 +15,11 @@
           />
         </v-col>
         <v-col cols="6" sm="3" md="3" lg="3" xl="3">
-          <v-text-field v-model="condition.toDate" type="date" label="日付（～終了）" />
+          <v-text-field
+            v-model="condition.toDate"
+            type="date"
+            label="日付（～終了）"
+          />
         </v-col>
         <v-col cols="3" sm="2" md="2" lg="2" xl="2">
           <v-select v-model="condition.month" :items="monthList" label="月">
@@ -110,6 +114,16 @@ export default {
       });
 
     this.$refs.entries.loadEntries();
+
+    this.$store.watch(
+      (state, getters) => getters.selectedUser,
+      () => {
+        // 別画面でも反応してしまうため
+        if (this.$refs.entries) {
+          this.search();
+        }
+      }
+    );
   },
   watch: {},
   computed: {},

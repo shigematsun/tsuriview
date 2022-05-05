@@ -54,9 +54,10 @@ public class EntryController {
 	}
 
 	@GetMapping(value = "/{id}")
-	public ShowEntryResponse showEntry(@AuthenticationPrincipal UserDetails user, @PathVariable("id") Integer id) {
+	public ShowEntryResponse showEntry(@AuthenticationPrincipal UserDetails user, @PathVariable("id") Integer id,
+			@RequestParam("userId") Optional<String> userId) {
 		return showEntryService.createShowResponse(id,
-				Optional.ofNullable(user).map(UserDetails::getUsername).orElse(null));
+				Optional.ofNullable(user).map(UserDetails::getUsername).orElse(null), userId);
 	}
 
 	@GetMapping

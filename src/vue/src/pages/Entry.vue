@@ -177,8 +177,12 @@ export default {
   methods: {
     loadEntry() {
       this.entryId = this.$route.params.id;
+      let params = {};
+      params.params = {};
+      params.params.userId = this.$store.getters.selectedUser;
+
       this.$axios
-        .get("/entries/" + this.entryId)
+        .get("/entries/" + this.entryId, params)
         .then((res) => {
           this.imageUrlList = res.data.imageUrlList;
           this.entry = res.data;

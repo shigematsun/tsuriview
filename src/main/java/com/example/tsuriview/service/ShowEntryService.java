@@ -13,10 +13,12 @@ import java.util.stream.IntStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.example.tsuriview.entity.Entry;
 import com.example.tsuriview.entity.EntryFish;
+import com.example.tsuriview.entity.EntrySpecs;
 import com.example.tsuriview.entity.Fish;
 import com.example.tsuriview.entity.Image;
 import com.example.tsuriview.entity.Method;
@@ -62,7 +64,7 @@ public class ShowEntryService {
 
 	private static final String DATE_FORMAT = "yyyy年MM月dd日(E)";
 
-	public ShowEntryResponse createShowResponse(Integer id, String userId) {
+	public ShowEntryResponse createShowResponse(Integer id, String loginUserId, Optional<String> selectedUserId) {
 		ShowEntryResponse response = new ShowEntryResponse();
 		List<Image> imageList = imageRepository.findByEntryId(id);
 		response.setImageUrlList(
@@ -110,13 +112,14 @@ public class ShowEntryService {
 				calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH)));
 
 		// 日時順で前後のentryを取得
-		List<Entry> entryList = entryRepository
-				.findAll(Sort.by(Sort.Direction.ASC, "date").and(Sort.by(Sort.Direction.ASC, "startTime")));
+		Specification<Entry> spec = Specification.where(EntrySpecs.userIdEquals(selectedUserId));
+		List<Entry> entryList = entryRepository.findAll(spec,
+				Sort.by(Sort.Direction.ASC, "date").and(Sort.by(Sort.Direction.ASC, "startTime")));
 		int index = IntStream.range(0, entryList.size()).map(i -> entryList.get(i).getId().equals(id) ? i : -1)
 				.filter(i -> i >= 0).min().getAsInt();
 		response.setPrevId(index == 0 ? null : entryList.get(index - 1).getId());
 		response.setNextId(index == (entryList.size() - 1) ? null : entryList.get(index + 1).getId());
-		response.setCanEdit(entry.getUserId().equals(userId));
+		response.setCanEdit(entry.getUserId().equals(loginUserId));
 
 		return response;
 	}

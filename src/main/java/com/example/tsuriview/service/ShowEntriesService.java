@@ -85,7 +85,8 @@ public class ShowEntriesService {
 				.and(EntrySpecs.prefectureEquals(Optional.ofNullable(request.getPrefecture())))
 				.and(EntrySpecs.placeEquals(Optional.ofNullable(request.getPlace())))
 				.and(EntrySpecs.existsFish(Optional.ofNullable(request.getFish())))
-				.and(EntrySpecs.existsMethod(Optional.ofNullable(request.getMethod())));
+				.and(EntrySpecs.existsMethod(Optional.ofNullable(request.getMethod())))
+				.and(EntrySpecs.userIdEquals(Optional.ofNullable(request.getUserId())));
 		Page<Entry> entryList = entryRepository.findAll(spec, 
 				PageRequest.of(
 						Optional.ofNullable(request.getPage()).orElse(1) - 1, 
@@ -116,9 +117,10 @@ public class ShowEntriesService {
 		return response;
 	}
 
-	public TopEntriesResponse createTopResponse() {
+	public TopEntriesResponse createTopResponse(Optional<String> userId) {
 		TopEntriesResponse response = new TopEntriesResponse();
-		Page<Entry> entryList = entryRepository.findAll(
+		Specification<Entry> spec = Specification.where(EntrySpecs.userIdEquals(userId));
+		Page<Entry> entryList = entryRepository.findAll(spec,
 				PageRequest.of(0, topSize, Sort.by("date").descending().and(Sort.by("startTime").descending())));
 
 		SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
@@ -138,7 +140,6 @@ public class ShowEntriesService {
 
 			return entryInfo;
 		}).collect(Collectors.toList()));
-
 
 		return response;
 	}

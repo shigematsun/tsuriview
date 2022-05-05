@@ -152,7 +152,11 @@ export default {
     let now = new Date();
     this.month = now.getMonth() + 1;
 
-    this.$axios.get("/entries/top").then((res) => {
+    let params = {};
+    params.params = {};
+    params.params.userId = this.$store.getters.selectedUser;
+
+    this.$axios.get("/entries/top", params).then((res) => {
       this.entryList = res.data.entryList;
     });
 
@@ -161,16 +165,17 @@ export default {
   computed: {},
   methods: {
     loadFishPlace() {
-      this.$axios
-        .get("/fishes/top", { params: { month: this.month } })
-        .then((res) => {
-          this.fishList = res.data.fishList;
-        });
-      this.$axios
-        .get("/places/top", { params: { month: this.month } })
-        .then((res) => {
-          this.placeList = res.data.placeList;
-        });
+      let params = {};
+      params.params = {};
+      params.params.month = this.month;
+      params.params.userId = this.$store.getters.selectedUser;
+
+      this.$axios.get("/fishes/top", params).then((res) => {
+        this.fishList = res.data.fishList;
+      });
+      this.$axios.get("/places/top", params).then((res) => {
+        this.placeList = res.data.placeList;
+      });
     },
   },
 };

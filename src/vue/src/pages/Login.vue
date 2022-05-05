@@ -32,11 +32,6 @@
 <script>
 export default {
   name: "Login",
-  components: {},
-  mounted() {},
-  complete: function () {
-    // clearInterval(this.timer)
-  },
   data: () => ({
     id: "",
     password: "",

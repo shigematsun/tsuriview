@@ -70,7 +70,7 @@ public class EntryController {
 	}
 
 	@GetMapping(value = "/top")
-	public TopEntriesResponse topEntries() {
-		return showEntriesService.createTopResponse();
+	public TopEntriesResponse topEntries(@RequestParam("userId") Optional<String> userId) {
+		return showEntriesService.createTopResponse(userId);
 	}
 }

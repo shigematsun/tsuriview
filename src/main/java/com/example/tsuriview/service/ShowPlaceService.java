@@ -21,6 +21,8 @@ import com.example.tsuriview.entity.EntrySpecs;
 import com.example.tsuriview.entity.Fish;
 import com.example.tsuriview.entity.Method;
 import com.example.tsuriview.entity.Place;
+import com.example.tsuriview.entity.PlaceSpecs;
+import com.example.tsuriview.entity.Prefecture;
 import com.example.tsuriview.form.ShowPlaceFishInfo;
 import com.example.tsuriview.form.ShowPlaceInitResponse;
 import com.example.tsuriview.form.ShowPlaceResponse;
@@ -55,18 +57,21 @@ public class ShowPlaceService {
 	@Value("${top.place.size}")
 	private Integer TOP_PLACE_SIZE;
 
-	public ShowPlaceInitResponse createInitResponse() {
+	public ShowPlaceInitResponse createInitResponse(Optional<String> userId) {
 		ShowPlaceInitResponse response = new ShowPlaceInitResponse();
 		response.setPrefectureList(prefectureRepository.findAll(Sort.by(Sort.Direction.ASC, "id")));
-		List<Place> placeList = placeRepository.findAll();
+		Specification<Place> spec = Specification.where(PlaceSpecs.existsUserId(userId));
+		List<Place> placeList = placeRepository.findAll(spec);
 		// 場所を都道府県ごとのマップに変換
 		Map<String, List<Place>> placeListMap = placeList.stream().collect(Collectors.groupingBy(Place::getPrefecture));
 		response.setPlaceListMap(placeListMap);
+		response.setPrefectureList(placeListMap.keySet().stream().map(key -> prefectureRepository.findById(key).get())
+				.sorted(Comparator.comparing(Prefecture::getId)).collect(Collectors.toList()));
 
 		return response;
 	}
 
-	public ShowPlaceResponse createShowResponse(Integer id) {
+	public ShowPlaceResponse createShowResponse(Integer id, Optional<String> userId) {
 		ShowPlaceResponse response = new ShowPlaceResponse();
 		response.setPlaceId(id);
 		Place place = placeRepository.findById(id).get();
@@ -74,7 +79,8 @@ public class ShowPlaceService {
 		response.setName(place.getName());
 		response.setMapUrl(place.getMapUrl());
 
-		List<Entry> entryList = entryRepository.findByPlace(id);
+		List<Entry> entryList = userId.isPresent() ? entryRepository.findByPlaceAndUserId(id, userId.get())
+				: entryRepository.findByPlace(id);
 		response.setTimes(entryList.size());
 
 		// 魚別の釣果リスト
@@ -115,12 +121,13 @@ public class ShowPlaceService {
 		return response;
 	}
 
-	public TopPlaceResponse createTopResponse(Integer month) {
+	public TopPlaceResponse createTopResponse(Integer month, Optional<String> userId) {
 		TopPlaceResponse response = new TopPlaceResponse();
 		// @formatter:off
 		Specification<Entry> spec = Specification.where(
 				EntrySpecs.monthEquals(Optional.ofNullable(month)))
-				.and(EntrySpecs.existsAnyFish());
+				.and(EntrySpecs.existsAnyFish())
+				.and(EntrySpecs.userIdEquals(userId));
 		// @formatter:on
 		List<Entry> entryList = entryRepository.findAll(spec);
 		Map<Integer, List<Entry>> placeMap = entryList.stream().collect(Collectors.groupingBy(Entry::getPlace));

@@ -75,6 +75,7 @@ export default {
       let params = {};
       params.params = {};
       if (this.page) params.params.page = this.page;
+      params.params.userId = this.$store.getters.selectedUser;
 
       if (this.condition) {
         let obj = this.condition;

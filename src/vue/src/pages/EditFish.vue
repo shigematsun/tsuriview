@@ -49,12 +49,8 @@
 <script>
 export default {
   name: "EditFish",
-  components: {},
   mounted() {
     this.getTargetList();
-  },
-  complete: function () {
-    // clearInterval(this.timer)
   },
   data: () => ({
     form: {},

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import Entry from "./pages/Entry"
 import Login from "./pages/Login"
+import AccountSetting from "./pages/AccountSetting"
 import EditEntry from "./pages/EditEntry"
 import EditMethod from "./pages/EditMethod"
 import EditFish from "./pages/EditFish"
@@ -32,6 +33,7 @@ Vue.prototype.$axios = axios;
 
 const routes = [
     {path: '/login', component: Login},
+    {path: '/accountSetting', component: AccountSetting},
     {path: '/entry/:id', component: Entry},
     {path: '/place/:id?', component: Place},
     {path: '/fish/:id', component: Fish},

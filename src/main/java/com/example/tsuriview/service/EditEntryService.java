@@ -123,7 +123,7 @@ public class EditEntryService {
 		});
 
 		if (!request.getFishInfoList().isEmpty()) {
-			List<EntryFish> fishList = new ArrayList<EntryFish>();
+			List<EntryFish> fishList = new ArrayList<>();
 			int i = 1;
 			for (FishInfo fishInfo : request.getFishInfoList()) {
 				EntryFish entryFish = new EntryFish();
@@ -143,7 +143,7 @@ public class EditEntryService {
 		}
 
 		if (!request.getImageList().isEmpty()) {
-			List<Image> imageList = new ArrayList<Image>();
+			List<Image> imageList = new ArrayList<>();
 			int j = 1;
 			for (ImageInfo imageInfo : request.getImageList()) {
 				Image image = imageRepository.findById(imageInfo.getId()).get();

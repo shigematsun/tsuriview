@@ -1,5 +1,7 @@
 package com.example.tsuriview.controller;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,23 +34,24 @@ public class FishController {
 	EditFishService editFishService;
 
 	@GetMapping(value = "/init")
-	public ShowFishInitResponse showFishInit() {
-		return showFishService.createInitResponse();
+	public ShowFishInitResponse showFishInit(@RequestParam("userId") Optional<String> userId) {
+		return showFishService.createInitResponse(userId);
 	}
 
 	@GetMapping(value = "/{id}")
-	public ShowFishResponse showFish(@PathVariable("id") Integer id) {
-		return showFishService.createShowResponse(id);
+	public ShowFishResponse showFish(@PathVariable("id") Integer id, @RequestParam("userId") Optional<String> userId) {
+		return showFishService.createShowResponse(id, userId);
 	}
 
 	@GetMapping(value = "/top")
-	public TopFishResponse topFish(@RequestParam("month") Integer month) {
-		return showFishService.createTopResponse(month);
+	public TopFishResponse topFish(@RequestParam("month") Integer month,
+			@RequestParam("userId") Optional<String> userId) {
+		return showFishService.createTopResponse(month, userId);
 	}
 
 	@GetMapping()
-	public FishListResponse showFishList() {
-		return showFishService.createFishListResponse();
+	public FishListResponse showFishList(@RequestParam("userId") Optional<String> userId) {
+		return showFishService.createFishListResponse(userId);
 	}
 
 	@GetMapping(value = "/edit/init")
@@ -60,7 +63,7 @@ public class FishController {
 	public EditFishForm editFishShow(@PathVariable("id") Integer id) {
 		return editFishService.createShowResponse(id);
 	}
-	
+
 	@Transactional
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody

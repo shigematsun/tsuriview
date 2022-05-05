@@ -4,21 +4,24 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.example.tsuriview.entity.Entry;
 import com.example.tsuriview.entity.EntryFish;
 import com.example.tsuriview.entity.Fish;
-import com.example.tsuriview.form.ShowFishInitResponse;
-import com.example.tsuriview.form.ShowFishResponse;
+import com.example.tsuriview.entity.FishSpecs;
 import com.example.tsuriview.form.FishIcon;
 import com.example.tsuriview.form.FishListResponse;
+import com.example.tsuriview.form.ShowFishInitResponse;
+import com.example.tsuriview.form.ShowFishResponse;
 import com.example.tsuriview.form.TopFishResponse;
 import com.example.tsuriview.repository.EntryFishRepository;
 import com.example.tsuriview.repository.EntryRepository;
@@ -41,13 +44,14 @@ public class ShowFishService {
 	@Value("${top.fish.size}")
 	private Integer TOP_FISH_SIZE;
 
-	public ShowFishInitResponse createInitResponse() {
+	public ShowFishInitResponse createInitResponse(Optional<String> userId) {
 		ShowFishInitResponse response = new ShowFishInitResponse();
-		response.setFishList(fishRepository.findAll(Sort.by(Sort.Direction.ASC, "name")));
+		Specification<Fish> spec = Specification.where(FishSpecs.existsUserId(userId));
+		response.setFishList(fishRepository.findAll(spec, Sort.by(Sort.Direction.ASC, "name")));
 		return response;
 	}
 
-	public ShowFishResponse createShowResponse(Integer id) {
+	public ShowFishResponse createShowResponse(Integer id, Optional<String> userId) {
 		ShowFishResponse response = new ShowFishResponse();
 		response.setFishId(id);
 
@@ -55,7 +59,8 @@ public class ShowFishService {
 		response.setName(fish.getName());
 		response.setImageUrl(imageUtils.getUrlByKey(fish.getImageKey()));
 
-		List<EntryFish> entryFishList = entryFishRepository.findByFish(id);
+		List<EntryFish> entryFishList = userId.isPresent() ? entryFishRepository.findByFishAndUserId(id, userId.get())
+				: entryFishRepository.findByFish(id);
 		response.setTotal(
 				entryFishList.stream().map(EntryFish::getCount).reduce((accum, value) -> accum + value).orElse(0));
 		response.setMin(entryFishList.stream().map(EntryFish::getMin).min(Comparator.naturalOrder()).orElse(0));
@@ -77,9 +82,10 @@ public class ShowFishService {
 		return response;
 	}
 
-	public TopFishResponse createTopResponse(Integer month) {
+	public TopFishResponse createTopResponse(Integer month, Optional<String> userId) {
 		TopFishResponse response = new TopFishResponse();
-		List<Entry> entryList = entryRepository.findByMonth(month);
+		List<Entry> entryList = userId.isPresent() ? entryRepository.findByMonthAndUserId(month, userId.get())
+				: entryRepository.findByMonth(month);
 		// fishIdと魚別の数
 		Map<Integer, Integer> fishMap = entryList.stream().flatMap(entry -> entry.getFishList().stream())
 				.collect(Collectors.groupingBy(EntryFish::getFish, Collectors.summingInt(EntryFish::getCount)));
@@ -100,9 +106,10 @@ public class ShowFishService {
 		return response;
 	}
 
-	public FishListResponse createFishListResponse() {
+	public FishListResponse createFishListResponse(Optional<String> userId) {
 		FishListResponse response = new FishListResponse();
-		List<Fish> fishList = fishRepository.findAll(Sort.by(Sort.Direction.ASC, "name"));
+		Specification<Fish> spec = Specification.where(FishSpecs.existsUserId(userId));
+		List<Fish> fishList = fishRepository.findAll(spec, Sort.by(Sort.Direction.ASC, "name"));
 		response.setFishList(fishList.stream().map(fish -> {
 			FishIcon icon = new FishIcon();
 			icon.setFishId(fish.getId());

@@ -276,7 +276,6 @@
 import Compressor from "compressorjs";
 export default {
   name: "EditEntry",
-  components: {},
   mounted() {
     this.initInput();
     this.editing = {};

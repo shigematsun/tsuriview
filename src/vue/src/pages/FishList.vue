@@ -29,7 +29,11 @@ export default {
     fishList: [],
   }),
   mounted() {
-    this.$axios.get("/fishes").then((res) => {
+    let params = {};
+    params.params = {};
+    params.params.userId = this.$store.getters.selectedUser;
+    
+    this.$axios.get("/fishes", params).then((res) => {
       this.fishList = res.data.fishList;
     });
   },

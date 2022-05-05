@@ -1,5 +1,7 @@
 package com.example.tsuriview.controller;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,18 +33,20 @@ public class PlaceController {
 	EditPlaceService editPlaceService;
 
 	@GetMapping(value = "/init")
-	public ShowPlaceInitResponse showPlaceInit() {
-		return showPlaceService.createInitResponse();
+	public ShowPlaceInitResponse showPlaceInit(@RequestParam("userId") Optional<String> userId) {
+		return showPlaceService.createInitResponse(userId);
 	}
 
 	@GetMapping(value = "/{id}")
-	public ShowPlaceResponse showPlace(@PathVariable("id") Integer id) {
-		return showPlaceService.createShowResponse(id);
+	public ShowPlaceResponse showPlace(@PathVariable("id") Integer id,
+			@RequestParam("userId") Optional<String> userId) {
+		return showPlaceService.createShowResponse(id, userId);
 	}
 
 	@GetMapping(value = "/top")
-	public TopPlaceResponse topPlace(@RequestParam("month") Integer month) {
-		return showPlaceService.createTopResponse(month);
+	public TopPlaceResponse topPlace(@RequestParam("month") Integer month,
+			@RequestParam("userId") Optional<String> userId) {
+		return showPlaceService.createTopResponse(month, userId);
 	}
 
 	@GetMapping(value = "/edit/init")

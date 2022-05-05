@@ -23,19 +23,20 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+	@Bean
+	public BCryptPasswordEncoder bCryptPasswordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 
-    @Value("${env}")
-    private String env;
+	@Value("${env}")
+	private String env;
 
-    @Autowired
-    private DataSource dataSource;
+	@Autowired
+	private DataSource dataSource;
 
-    //ユーザIDとパスワードを取得するSQL文
-    // 使用可否は全てTRUEで設定
+	// ユーザIDとパスワードを取得するSQL文
+	// 使用可否は全てTRUEで設定
+	// @formatter:off
     private static final String USER_SQL = "SELECT "
             + "id AS username, "
             + "password AS password, "
@@ -48,41 +49,43 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             + "role "
             + "FROM m_user "
             + "WHERE id = ?";
+    // @formatter:on
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		// @formatter:off
         auth.jdbcAuthentication()
                 .dataSource(dataSource)
                 .usersByUsernameQuery(USER_SQL)
                 .authoritiesByUsernameQuery(ROLE_SQL)
                 .passwordEncoder(bCryptPasswordEncoder());
-    }
+        // @formatter:on
+	}
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.logout().logoutUrl("/api/logout")
-                .deleteCookies("JSESSIONID")
-                .invalidateHttpSession(true)
-                .logoutSuccessHandler((req, res, auth) -> res.setStatus(HttpServletResponse.SC_OK))
-        ;
-
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		http.logout().logoutUrl("/api/logout").deleteCookies("JSESSIONID").invalidateHttpSession(true)
+				.logoutSuccessHandler((req, res, auth) -> res.setStatus(HttpServletResponse.SC_OK));
+		// @formatter:off
         http.authorizeRequests()
                 .antMatchers("/").permitAll()
                 .antMatchers("/vue/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/**").hasAuthority("admin")
-                .antMatchers("/api/*/edit/**").authenticated()
+                .antMatchers(HttpMethod.POST, "/api/fishes", "/api/places", "/api/methods").hasAuthority("admin")
+                .antMatchers(HttpMethod.POST, "/api/entries", "/api/images", "/api/users/setting").authenticated()
                 .antMatchers("/h2-console/**").permitAll()	// H2DBデバッグ用
                 .anyRequest().permitAll()
         ;
+        // @formatter:on
 
-        // Spring Securityデフォルトでは、アクセス権限（ROLE）設定したページに未認証状態でアクセスすると403を返すので、
-        // 401を返すように変更
-        http.exceptionHandling().authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
+		// Spring Securityデフォルトでは、アクセス権限（ROLE）設定したページに未認証状態でアクセスすると403を返すので、
+		// 401を返すように変更
+		http.exceptionHandling().authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
 
-        http.addFilter(new SpaAuthenticationFilter(authenticationManager(), bCryptPasswordEncoder()));
-        http.csrf().ignoringAntMatchers("/api/login").csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+		http.addFilter(new SpaAuthenticationFilter(authenticationManager(), bCryptPasswordEncoder()));
+		http.csrf().ignoringAntMatchers("/api/login")
+				.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
 
-		http.csrf().disable();	// H2DBデバッグ用
+		http.csrf().disable(); // H2DBデバッグ用
 		http.headers().frameOptions().disable(); // H2DBデバッグ用
-    }
+	}
 }

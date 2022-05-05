@@ -3,14 +3,14 @@
     <v-card max-width="740" class="mx-auto pa-5">
       <v-row>
         <v-col col="6">
-        <v-select
-          v-model="fishId"
-          :items="fishList"
-          item-text="name"
-          item-value="id"
-          label="魚を選択してください"
-          @change="this.showData"
-        ></v-select>
+          <v-select
+            v-model="fishId"
+            :items="fishList"
+            item-text="name"
+            item-value="id"
+            label="魚を選択してください"
+            @change="this.showData"
+          ></v-select>
         </v-col>
       </v-row>
       <div v-if="fishId">
@@ -26,8 +26,14 @@
         </v-row>
         <v-row>
           <v-col cols="5"> <b>サイズ</b> </v-col>
-          <v-col cols="3"> <div>最大</div><div>最小</div> </v-col>
-          <v-col cols="4"> <div>{{ fish.max }}cm</div><div>{{ fish.min }}cm</div> </v-col>
+          <v-col cols="3">
+            <div>最大</div>
+            <div>最小</div>
+          </v-col>
+          <v-col cols="4">
+            <div>{{ fish.max }}cm</div>
+            <div>{{ fish.min }}cm</div>
+          </v-col>
         </v-row>
         <v-row>
           <v-card min-width="100%">
@@ -151,8 +157,12 @@ export default {
   },
   methods: {
     loadFish() {
+      let params = {};
+      params.params = {};
+      params.params.userId = this.$store.getters.selectedUser;
+
       this.$axios
-        .get("/fishes/init")
+        .get("/fishes/init", params)
         .then((res) => {
           this.fishList = res.data.fishList;
           this.fishId = this.$route.params.id;
@@ -165,8 +175,12 @@ export default {
         });
     },
     showData() {
+      let params = {};
+      params.params = {};
+      params.params.userId = this.$store.getters.selectedUser;
+
       this.$axios
-        .get("/fishes/" + this.fishId)
+        .get("/fishes/" + this.fishId, params)
         .then((res) => {
           this.loaded = false;
           this.fishId = res.data.fishId;

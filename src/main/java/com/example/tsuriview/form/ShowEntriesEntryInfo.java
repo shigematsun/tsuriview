@@ -9,6 +9,8 @@ public class ShowEntriesEntryInfo {
 	
 	private Integer id;
 	
+	private String userName;
+	
 	private String imageUrl;
 	
 	private String date;

@@ -17,6 +17,10 @@
 
             <v-card-text>
               <v-row align="center">
+                <v-icon> mdi-account-circle </v-icon>
+                {{ entry.userName }}
+              </v-row>
+              <v-row align="center">
                 <v-icon> mdi-calendar </v-icon>
                 {{ entry.date }}
               </v-row>
@@ -71,6 +75,7 @@ export default {
       let params = {};
       params.params = {};
       if (this.page) params.params.page = this.page;
+      params.params.userId = this.$store.getters.selectedUser;
 
       if (this.condition) {
         let obj = this.condition;

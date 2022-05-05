@@ -48,6 +48,9 @@ public class EntryFish extends AbstractEntity{
 	@Column(name = "time_minute")
 	private String timeMinute;
 
+	@Column(name = "user_id")
+	private String userId;
+
 	@ManyToOne
 	@JoinColumn(name = "entry_id", insertable = false, updatable = false)
 	@ToString.Exclude // 循環参照の回避

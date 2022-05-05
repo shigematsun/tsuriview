@@ -27,4 +27,6 @@ public class ShowEntriesRequest {
 
 	private Integer page;
 
+	private String userId;
+
 }

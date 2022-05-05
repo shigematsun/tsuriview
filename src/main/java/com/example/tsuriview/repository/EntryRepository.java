@@ -14,7 +14,11 @@ public interface EntryRepository extends JpaRepository<Entry, Integer>, JpaSpeci
 	
 	List<Entry> findByPlace(Integer place);
 	
+	List<Entry> findByPlaceAndUserId(Integer place, String userId);
+	
 	List<Entry> findByMonth(Integer month);
+	
+	List<Entry> findByMonthAndUserId(Integer month, String userId);
 	
 	List<Entry> findByDateGreaterThanOrderByDateAscStartTimeAsc(Date date);
 }

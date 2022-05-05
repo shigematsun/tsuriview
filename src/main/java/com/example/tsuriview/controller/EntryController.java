@@ -4,6 +4,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -43,17 +45,19 @@ public class EntryController {
 	public EditEntryInitResponse editEntryInit(@RequestParam("id") Optional<Integer> id) {
 		return editEntryService.createInitResponse(id);
 	}
-	
+
 	@Transactional
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String edit(@RequestBody EditEntryForm request) {
-		return editEntryService.editEntry(request);
+	public String edit(@AuthenticationPrincipal UserDetails user, @RequestBody EditEntryForm request) {
+		return editEntryService.editEntry(request, user.getUsername());
 	}
 
 	@GetMapping(value = "/{id}")
-	public ShowEntryResponse showEntry(@PathVariable("id") Integer id) {
-		return showEntryService.createShowResponse(id);
+	public ShowEntryResponse showEntry(@AuthenticationPrincipal UserDetails user, @PathVariable("id") Integer id,
+			@RequestParam("userId") Optional<String> userId) {
+		return showEntryService.createShowResponse(id,
+				Optional.ofNullable(user).map(UserDetails::getUsername).orElse(null), userId);
 	}
 
 	@GetMapping
@@ -67,7 +71,7 @@ public class EntryController {
 	}
 
 	@GetMapping(value = "/top")
-	public TopEntriesResponse topEntries() {
-		return showEntriesService.createTopResponse();
+	public TopEntriesResponse topEntries(@RequestParam("userId") Optional<String> userId) {
+		return showEntriesService.createTopResponse(userId);
 	}
 }

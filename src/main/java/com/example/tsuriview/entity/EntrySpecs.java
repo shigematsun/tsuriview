@@ -37,6 +37,10 @@ public class EntrySpecs {
 		return place.isPresent() ? (root, query, builder) -> builder.equal(root.get("place"), place.get()) : null;
 	}
 
+	public static Specification<Entry> userIdEquals(Optional<String> userId) {
+		return userId.isPresent() ? (root, query, builder) -> builder.equal(root.get("userId"), userId.get()) : null;
+	}
+
 	public static Specification<Entry> existsFish(Optional<Integer> fish) {
 		return fish.isPresent() ? (root, query, builder) -> {
 			Subquery<Integer> subquery = query.subquery(Integer.class);

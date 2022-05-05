@@ -41,12 +41,8 @@
 <script>
 export default {
   name: "EditMethod",
-  components: {},
   mounted() {
     this.getTargetList();
-  },
-  complete: function () {
-    // clearInterval(this.timer)
   },
   data: () => ({
     form: {},

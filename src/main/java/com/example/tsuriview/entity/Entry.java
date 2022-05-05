@@ -46,6 +46,9 @@ public class Entry extends AbstractEntity{
 
 	@Column(name = "memo")
 	private String memo;
+
+	@Column(name = "user_id")
+	private String userId;
 	
 	@OneToMany(mappedBy = "entryId")
 	@ToString.Exclude // 循環参照の回避

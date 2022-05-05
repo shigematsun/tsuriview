@@ -85,12 +85,8 @@
 <script>
 export default {
   name: "EditPlace",
-  components: {},
   mounted() {
     this.getTargetList();
-  },
-  complete: function () {
-    // clearInterval(this.timer)
   },
   data: () => ({
     form: {},

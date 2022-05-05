@@ -9,6 +9,8 @@ public class ShowEntryResponse {
 	
 	private List<String> imageUrlList;
 	
+	private String userName;
+	
 	private String date;
 	
 	private String startTime;
@@ -34,5 +36,7 @@ public class ShowEntryResponse {
 	private Integer nextId;
 	
 	private Integer prevId;
+	
+	private Boolean canEdit;
 
 }

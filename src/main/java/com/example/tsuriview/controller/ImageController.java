@@ -6,6 +6,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,13 +31,13 @@ public class ImageController {
 	ImageService imageService;
 
 	@PostMapping()
-	public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file,
-			@RequestParam("name") String name) {
+	public ResponseEntity<ResponseMessage> uploadFile(@AuthenticationPrincipal UserDetails user,
+			@RequestParam("file") MultipartFile file, @RequestParam("name") String name) {
 		String message = "";
 		try {
 			String key = storageService.putObject(file.getInputStream(), name, file.getContentType(), file.getSize());
 
-			imageService.regist(key);
+			imageService.regist(key, user.getUsername());
 			message = "ファイルのアップロードに成功しました。: " + name;
 			return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
 		} catch (Exception e) {
@@ -46,7 +48,8 @@ public class ImageController {
 
 	@GetMapping()
 	@ResponseBody
-	public List<ImageInfo> getListFiles(@RequestParam("entryId") Optional<Integer> entryId) {
-		return imageService.getEnableList(entryId);
+	public List<ImageInfo> getListFiles(@AuthenticationPrincipal UserDetails user,
+			@RequestParam("entryId") Optional<Integer> entryId) {
+		return imageService.getEnableList(entryId, user.getUsername());
 	}
 }

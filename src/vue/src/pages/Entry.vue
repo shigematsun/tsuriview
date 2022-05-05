@@ -11,7 +11,7 @@
           ◀ 次
         </v-btn>
         <v-btn
-          v-if="this.$store.getters.isAuthenticated"
+          v-if="this.entry.canEdit"
           color="accent"
           class="mx-auto"
           :to="'/edit/entry/' + this.entryId"
@@ -44,6 +44,8 @@
         <v-divider></v-divider>
       </v-row>
       <v-row>
+        <v-col cols="5"> <b>釣り人</b> </v-col>
+        <v-col cols="7"> {{ entry.userName }}</v-col>
         <v-col cols="5"> <b>日付</b> </v-col>
         <v-col cols="7"> {{ entry.date }}</v-col>
         <v-col cols="5"> <b>時間</b> </v-col>
@@ -140,7 +142,7 @@
           ◀ 次
         </v-btn>
         <v-btn
-          v-if="this.$store.getters.isAuthenticated"
+          v-if="this.entry.canEdit"
           color="accent"
           class="mx-auto"
           :to="'/edit/entry/' + this.entryId"
@@ -175,8 +177,12 @@ export default {
   methods: {
     loadEntry() {
       this.entryId = this.$route.params.id;
+      let params = {};
+      params.params = {};
+      params.params.userId = this.$store.getters.selectedUser;
+
       this.$axios
-        .get("/entries/" + this.entryId)
+        .get("/entries/" + this.entryId, params)
         .then((res) => {
           this.imageUrlList = res.data.imageUrlList;
           this.entry = res.data;

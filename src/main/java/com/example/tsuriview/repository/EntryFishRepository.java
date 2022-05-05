@@ -13,5 +13,7 @@ public interface EntryFishRepository extends JpaRepository<EntryFish, EntryFishK
 	
 	List<EntryFish> findByFish(Integer fishId);
 	
+	List<EntryFish> findByFishAndUserId(Integer fishId, String userId);
+	
 	void deleteByEntryId(Integer entryId);
 }

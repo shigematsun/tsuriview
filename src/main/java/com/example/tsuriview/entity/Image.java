@@ -29,4 +29,7 @@ public class Image extends AbstractEntity{
 	
 	@Column(name = "entry_index")
 	private Integer entryIndex;
+
+	@Column(name = "user_id")
+	private String userId;
 }

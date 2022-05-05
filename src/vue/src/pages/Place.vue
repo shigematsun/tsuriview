@@ -185,8 +185,12 @@ export default {
   },
   methods: {
     loadPlace() {
+      let params = {};
+      params.params = {};
+      params.params.userId = this.$store.getters.selectedUser;
+
       this.$axios
-        .get("/places/init")
+        .get("/places/init", params)
         .then((res) => {
           this.prefectureList = res.data.prefectureList;
           this.placeListMap = res.data.placeListMap;
@@ -205,8 +209,12 @@ export default {
     },
     showData() {
       this.loaded = false;
+      let params = {};
+      params.params = {};
+      params.params.userId = this.$store.getters.selectedUser;
+
       this.$axios
-        .get("/places/" + this.placeId)
+        .get("/places/" + this.placeId, params)
         .then((res) => {
           this.prefectureId = res.data.prefectureId;
           this.setPlaceList();

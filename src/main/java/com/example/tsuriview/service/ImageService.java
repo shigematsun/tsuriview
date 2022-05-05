@@ -23,14 +23,15 @@ public class ImageService {
 	@Autowired
 	ImageUtils imageUtils;
 
-	public void regist(String key) {
+	public void regist(String key, String userId) {
 		Image image = new Image();
 		image.setKey(key);
+		image.setUserId(userId);
 		imageRepository.save(image);
 	}
 
-	public List<ImageInfo> getEnableList(Optional<Integer> entryId) {
-		List<Image> unuseList = imageRepository.findByEntryIdIsNull();
+	public List<ImageInfo> getEnableList(Optional<Integer> entryId, String userId) {
+		List<Image> unuseList = imageRepository.findByEntryIdIsNullAndUserId(userId);
 		// 詳細編集時の考慮
 		List<Image> ownList = entryId.isPresent() ? imageRepository.findByEntryId(entryId.get()) : Collections.emptyList();
 		List<ImageInfo> imageInfoList = Stream.concat(ownList.stream(), unuseList.stream()).map(entity -> {
